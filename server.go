@@ -13,6 +13,7 @@ func Server() {
 	app := fiber.New()
 
 	routes.Web(app)
+	routes.Api(app)
 
 	app.Listen(":8000")
 }

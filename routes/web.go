@@ -6,6 +6,6 @@ import (
 )
 
 func Web(c *fiber.App) {
-	c.Get("/api/users", controllers.ShowUser)
-	c.Post("/api/users/create", controllers.CreateUser)
+	c.Get("/users", controllers.ShowUser)
+	c.Post("/users/create", controllers.CreateUser)
 }

@@ -6,6 +6,7 @@ import (
 	"github.com/Zyprush18/Komik-fiber/databases"
 	"github.com/Zyprush18/Komik-fiber/models/entity"
 	"github.com/Zyprush18/Komik-fiber/models/requests"
+	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -29,6 +30,18 @@ func CreateUser(c *fiber.Ctx) error {
 	if err := c.BodyParser(user); err != nil {
 		return err
 	}
+
+	// validasi sebelum menyimpan data
+	validation := validator.New()
+	if err := validation.Struct(user); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Failed Input User",
+			"errors": err.Error(),
+		})
+	}
+
+
+
 
 	newUser := entity.User{
 		Name: user.Name,

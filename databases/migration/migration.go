@@ -8,7 +8,7 @@ import (
 )
 
 func RunMigrate() {
-	err := databases.DB.AutoMigrate(&entity.User{})
+	err := databases.DB.AutoMigrate(&entity.User{}, &entity.Komik{})
 
 	if err != nil {
 		panic(err)

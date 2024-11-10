@@ -6,6 +6,9 @@ import (
 )
 
 func Api(c *fiber.App)  {
-	c.Get("/api/users", controllers.ShowUser)
+	c.Get("/api/users", controllers.ListUser)
 	c.Post("/api/users/create", controllers.CreateUser)
+	c.Get("/api/users/:id/edit", controllers.ShowUser)
+	c.Put("/api/users/:id/update", controllers.UpdateUser)
+
 }

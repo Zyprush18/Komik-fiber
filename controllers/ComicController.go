@@ -91,3 +91,67 @@ func ShowComic(c *fiber.Ctx) error  {
 		"data":comics,
 	})
 }
+
+
+func UpdateComic(c *fiber.Ctx) error {
+	comic := new(requests.Komik)
+	var comics []entity.Komik
+
+	id := c.Params("id")
+
+	if id == "" {
+		c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "unknown id",
+		})
+		return nil
+	}
+
+	if err := c.BodyParser(comic);err != nil {
+		return err
+	}
+
+
+	updatecomic := entity.Komik{
+		Name: comic.Name,
+		Creator: comic.Creator,
+		Publisher: comic.Publisher,
+		Releases: comic.Releases,
+		Image: comic.Image,
+		Decsription: comic.Decsription,
+	}
+
+	if err := databases.DB.Model(&comics).Where("id = ?", id).First(&comics).Updates(&updatecomic).Error;err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"Message": "failed update comic in id",
+		})
+		
+	}
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "Success Update",
+		"data": updatecomic,
+	})
+}
+
+
+func DeleteComic(c *fiber.Ctx) error  {
+	var comis []entity.Komik
+
+	id := c.Params("id")
+
+	if id == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Unknown id",
+		})
+	}
+
+	if err := databases.DB.Model(&comis).Where("id = ?",id).First(&comis).Delete(&comis).Error; err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Failed Delete comics in id",
+		})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"Message": "Success Delete Comics",
+	})
+}

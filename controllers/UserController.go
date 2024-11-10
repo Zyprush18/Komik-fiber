@@ -102,13 +102,6 @@ func UpdateUser(c *fiber.Ctx) error {
 		return err
 	}
 
-	if err := databases.DB.Where("id = ?", id).First(&user).Error;err != nil{
-		c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"message": "ups data tidak di temukan",
-		})
-		return nil
-	}
-
 	newUser := entity.User{
 		Name: userReq.Name,
 		Email: userReq.Email,
@@ -116,7 +109,7 @@ func UpdateUser(c *fiber.Ctx) error {
 
 	}
 
-	if err := databases.DB.Model(&user).Where("id = ?",id).Updates(&newUser).Error;err != nil{
+	if err := databases.DB.Model(&user).Where("id = ?",id).First(&user).Updates(&newUser).Error;err != nil{
 		return c.Status(fiber.StatusBadRequest).JSON(
 			fiber.Map{
 				"message": "Failed Update User",

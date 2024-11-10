@@ -18,4 +18,6 @@ func Api(c *fiber.App)  {
 	c.Get("/api/comics",controllers.ListComic)
 	c.Post("/api/comics/create",controllers.CreateComics)
 	c.Get("/api/comics/:id/show",controllers.ShowComic)
+	c.Put("/api/comics/:id/update",controllers.UpdateComic)
+	c.Delete("/api/comics/:id/delete",controllers.DeleteComic)
 }

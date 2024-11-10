@@ -117,7 +117,7 @@ func UpdateUser(c *fiber.Ctx) error {
 	}
 
 	if err := databases.DB.Model(&user).Where("id = ?",id).Updates(&newUser).Error;err != nil{
-		return c.Status(fiber.StatusInternalServerError).JSON(
+		return c.Status(fiber.StatusBadRequest).JSON(
 			fiber.Map{
 				"message": "Failed Update User",
 			})
@@ -127,8 +127,20 @@ func UpdateUser(c *fiber.Ctx) error {
 		"message": "berhasil Update",
 		"data": userReq,
 	})
+}
 
+func DeleteUser(c *fiber.Ctx) error {
+	id := c.Params("id")
 
+	var user []entity.User
 
+	if err := databases.DB.First(&user,id).Delete(&user).Error; err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Data tidak di temukan",
+		})
+	}
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "Data berhasil di hapus",
+	})
 }
 

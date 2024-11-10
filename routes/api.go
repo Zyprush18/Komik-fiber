@@ -10,5 +10,6 @@ func Api(c *fiber.App)  {
 	c.Post("/api/users/create", controllers.CreateUser)
 	c.Get("/api/users/:id/edit", controllers.ShowUser)
 	c.Put("/api/users/:id/update", controllers.UpdateUser)
+	c.Delete("/api/users/:id/delete", controllers.DeleteUser)
 
 }

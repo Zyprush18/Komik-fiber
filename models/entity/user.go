@@ -2,8 +2,6 @@ package entity
 
 import (
 	"time"
-
-	"gorm.io/gorm"
 )
 
 type User struct{
@@ -13,5 +11,5 @@ type User struct{
 	Password string `json:"password"`
 	CreatedAt time.Time
   	UpdatedAt time.Time
-  	DeletedAt gorm.DeletedAt `json:"-"  gorm:"index, column:deleted_at"`
+  	// DeletedAt gorm.DeletedAt `json:"-"  gorm:"index, column:deleted_at"`
 }
